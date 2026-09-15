@@ -1,0 +1,82 @@
+# ============================================
+# WordPress setup gitignore
+# ============================================
+
+# Sensitive files - contain credentials
+# (จัดเก็บ credentials ใน .env แทนที่จะ commit ลง git)
+.env
+.env.local
+.env.*.local
+
+# WordPress.md เก็บ admin credentials ห้าม commit แต่เป็นข้อมูลเฉพาะของ development phase.
+# Wordpress.md
+
+# ============================================
+# Docker related
+# ============================================
+# Override file สำหรับ local development
+docker-compose.override.yml
+
+# ============================================
+# Logs
+# ============================================
+*.log
+logs/
+
+# ============================================
+# OS / Editor files
+# ============================================
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# ============================================
+# Build artifacts
+# ============================================
+*.tar
+*.tar.gz
+*.zip
+
+# ============================================
+# Theme dependencies (ถ้ามี node_modules ในอนาคต)
+# ============================================
+yadepan-kadence-child/node_modules/
+yadepan-kadence-child/vendor/
+yadepan-kadence-child/.cache/
+yadepan-kadence-child/dist/
+
+# ============================================
+# Backup files
+# ============================================
+*.bak
+*.backup
+*.old
+
+# ============================================
+# WordPress backup output (DB dumps, archives, metadata)
+# - ไม่เก็บข้อมูล backup ขึ้น repo เพราะมีขนาดใหญ่และอาจมีข้อมูลผู้ใช้
+# - เก็บเฉพาะ scripts (backup.sh, restore.sh) + README + .gitkeep ไว้ใน repo
+# ============================================
+backup/data/*
+!backup/data/.gitkeep
+backup/data/db/*
+backup/data/files/*
+backup/data/*/*
+*.sql.gz
+*.sql
+*.meta
+backup.log
+backup/data/backup.log
+
+# ============================================
+# Note: ไฟล์ที่ KEEP ไว้ใน git
+# ============================================
+# docker-compose.yml  - config หลัก (commit ได้)
+# php.ini             - PHP config override (commit ได้)
+# yadepan-kadence-child/ - theme code (commit ได้)
+# README.md, *.md     - เอกสาร (commit ได้ ยกเว้น wordpress.md)
+php.ini
