@@ -1,15 +1,15 @@
 services:
   wordpress:
     image: docker.m.daocloud.io/library/wordpress:6-php8.3-apache
-    container_name: yadepan-wordpress-app
+    container_name: wordpress-app
     restart: unless-stopped
     ports:
       - "8081:80"
     environment:
       WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: wordpress_user
-      WORDPRESS_DB_PASSWORD: wordpress_password
-      WORDPRESS_DB_NAME: wordpress_db
+      WORDPRESS_DB_USER: ${DATABASEUSER:-wordpress_user}
+      WORDPRESS_DB_PASSWORD: ${DATABASEPASS:-wordpress_password}
+      WORDPRESS_DB_NAME: ${DATABASENAME:-wordpress_db}
       # ค่า upload limit ผ่าน WP config (สำหรับ media upload)
       WORDPRESS_CONFIG_EXTRA: |
         define('WP_HOME', 'http://${DOMAIN}:${PORT}');
@@ -23,7 +23,7 @@ services:
     volumes:
       - wordpress_data:/var/www/html
       - ./mytheme/:/var/www/html/wp-content/themes/MyTheme:rw
-      - ./myplugins/:/var/www/html/wp-content/plugins/MyPlugin:rw
+      - ./myplugin/:/var/www/html/wp-content/plugins/MyPlugin:rw
       # เพิ่ม PHP ini override สำหรับ Apache + upload limit
       - ./php.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
     depends_on:
@@ -34,17 +34,17 @@ services:
 
   db:
     image: docker.m.daocloud.io/library/mysql:8.0
-    container_name: yadepan-wordpress-db
+    container_name: wordpress-db
     restart: unless-stopped
     environment:
-      MYSQL_DATABASE: wordpress_db
-      MYSQL_USER: wordpress_user
-      MYSQL_PASSWORD: wordpress_password
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ${DATABASENAME:-wordpress_db}
+      MYSQL_USER: ${DATABASEUSER:-wordpress_user}
+      MYSQL_PASSWORD: ${DATABASEPASS:-wordpress_password}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
     volumes:
       - db_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-prootpassword"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${MYSQL_ROOT_PASSWORD:-rootpassword}"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -60,7 +60,7 @@ services:
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
-      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
     depends_on:
       - db
     networks:
