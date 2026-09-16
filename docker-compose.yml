@@ -53,7 +53,7 @@ services:
 
   phpmyadmin:
     image: docker.m.daocloud.io/library/phpmyadmin:latest
-    container_name: yadepan-wordpress-phpmyadmin
+    container_name: wordpress-phpmyadmin
     restart: unless-stopped
     ports:
       - "8082:80"

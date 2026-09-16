@@ -10,7 +10,7 @@ Local WordPress development environment using **Docker Compose** — with WordPr
 | ----------- | ----------------- | --------------------------- | ------------------------------------ |
 | WordPress   | `8081`            | `wordpress-app`             | WordPress 6 (PHP 8.3 / Apache)       |
 | MySQL 8.0   | `3306` (internal) | `wordpress-db`              | Database server                      |
-| phpMyAdmin  | `8082`            | `yadepan-wordpress-phpmyadmin` | Web-based DB management UI       |
+| phpMyAdmin  | `8082`            | `wordpress-phpmyadmin` | Web-based DB management UI       |
 
 ---
 

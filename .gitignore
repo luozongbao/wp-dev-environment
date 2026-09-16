@@ -8,6 +8,12 @@
 .env.local
 .env.*.local
 
+# Keep myplugin folder in git for further development
+!myplugin/.gitkeep
+
+# keep mytheme folder in git for further development
+!mytheme/.gitkeep
+
 # WordPress.md เก็บ admin credentials ห้าม commit แต่เป็นข้อมูลเฉพาะของ development phase.
 # Wordpress.md
 
