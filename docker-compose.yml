@@ -4,7 +4,7 @@ services:
     container_name: wordpress-app
     restart: unless-stopped
     ports:
-      - "8081:80"
+      - ${PORT:-8081}:80
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: ${DATABASEUSER:-wordpress_user}
@@ -56,7 +56,7 @@ services:
     container_name: wordpress-phpmyadmin
     restart: unless-stopped
     ports:
-      - "8082:80"
+      - ${PHPMYADMIN_PORT:-8082}:80
     environment:
       PMA_HOST: db
       PMA_PORT: 3306
