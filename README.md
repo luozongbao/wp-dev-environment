@@ -2,15 +2,17 @@
 
 Local WordPress development environment using **Docker Compose** — with WordPress, MySQL, and phpMyAdmin preconfigured for quick setup.
 
+Names of containers, network, and volumes are automatically prefixed with `PROJECT_NAME` (defaulting to the directory name) so **multiple WordPress environments can coexist on a single machine** without name clashes.
+
 ---
 
 ## 🚀 Services
 
-| Service     | Port              | Container Name              | Description                          |
-| ----------- | ----------------- | --------------------------- | ------------------------------------ |
-| WordPress   | `8081`            | `wordpress-app`             | WordPress 6 (PHP 8.3 / Apache)       |
-| MySQL 8.0   | `3306` (internal) | `wordpress-db`              | Database server                      |
-| phpMyAdmin  | `8082`            | `wordpress-phpmyadmin` | Web-based DB management UI       |
+| Service     | Port              | Container Name                       | Description                          |
+| ----------- | ----------------- | ------------------------------------ | ------------------------------------ |
+| WordPress   | `8081`            | `${PROJECT_NAME}-wordpress-app`      | WordPress 6 (PHP 8.3 / Apache)       |
+| MySQL 8.0   | `3306` (internal) | `${PROJECT_NAME}-wordpress-db`       | Database server                      |
+| phpMyAdmin  | `8082`            | `${PROJECT_NAME}-wordpress-phpmyadmin` | Web-based DB management UI        |
 
 ---
 
@@ -31,9 +33,20 @@ Copy the example env file and adjust values if needed:
 cp .env.example .env
 ```
 
+Or use the helper script, which will auto-fill `PROJECT_NAME` from the current directory name:
+
+```bash
+./scripts/init-env.sh
+```
+
 Default values:
 
 ```env
+# Used to namespace containers, network, and volumes.
+# Defaults to the current directory name; override here if you want
+# multiple projects on the same machine to have different prefixes.
+PROJECT_NAME=wp-dev-environment
+
 DOMAIN=web.local
 PORT=8081
 
@@ -45,6 +58,8 @@ MYSQL_ROOT_PASSWORD=r00tP@ssw0rd
 ```
 
 > 💡 The database variables (`DATABASENAME`, `DATABASEUSER`, `DATABASEPASS`, `MYSQL_ROOT_PASSWORD`) are placeholders for documenting what `docker-compose.yml` expects — change them in `.env` if you want to override the default credentials.
+>
+> 💡 `PROJECT_NAME` can be anything that matches `^[a-zA-Z0-9_-]+$`. Docker will create resources like `wp-dev-environment_network`, `wp-dev-environment_wordpress_data`, and containers prefixed with `wp-dev-environment-`.
 
 ### 2. Prepare custom code folders
 
@@ -182,7 +197,17 @@ Changes appear immediately inside the container (live mount with `:rw`). No rebu
 
 ## 📝 Notes
 
-- All persistent data (WordPress files + uploads, MySQL data) lives in **named Docker volumes** (`wordpress_data`, `db_data`). These survive `docker compose down` but are removed with `docker compose down -v`.
+- All persistent data (WordPress files + uploads, MySQL data) lives in **named Docker volumes** (`${PROJECT_NAME}_wordpress_data`, `${PROJECT_NAME}_db_data`). These survive `docker compose down` but are removed with `docker compose down -v`. The `PROJECT_NAME` prefix prevents collisions when running multiple projects on the same machine.
+
+### Running multiple projects side-by-side
+
+Each project directory uses its own folder name (or any value you set in `.env`) as `PROJECT_NAME`, which Docker Compose uses to prefix:
+
+- Containers → `${PROJECT_NAME}-wordpress-app`, `${PROJECT_NAME}-wordpress-db`, …
+- Network → `${PROJECT_NAME}_network`
+- Volumes → `${PROJECT_NAME}_wordpress_data`, `${PROJECT_NAME}_db_data`
+
+To run a second WordPress site on the same host, clone the repo into a different directory (e.g. `wp-dev-environment-blog`) and run `./scripts/init-env.sh` there — Docker Compose will automatically use `wp-dev-environment-blog` as the prefix and nothing will clash.
 - The repo uses a `.gitignore` that excludes `.env`, logs, and IDE/OS files.
 
 ---
