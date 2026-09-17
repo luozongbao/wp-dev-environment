@@ -1,7 +1,7 @@
 services:
   wordpress:
     image: docker.m.daocloud.io/library/wordpress:6-php8.3-apache
-    container_name: wordpress-app
+    container_name: ${PROJECT_NAME}-wordpress-app
     restart: unless-stopped
     ports:
       - ${PORT:-8081}:80
@@ -21,7 +21,7 @@ services:
         @ini_set('max_execution_time', '300');
         @ini_set('max_input_time', '300');
     volumes:
-      - wordpress_data:/var/www/html
+      - wordpress_files:/var/www/html
       - ./mytheme/:/var/www/html/wp-content/themes/MyTheme:rw
       - ./myplugin/:/var/www/html/wp-content/plugins/MyPlugin:rw
       # เพิ่ม PHP ini override สำหรับ Apache + upload limit
@@ -30,11 +30,11 @@ services:
       db:
         condition: service_healthy
     networks:
-      - wordpress_network
+      - app_network
 
   db:
     image: docker.m.daocloud.io/library/mysql:8.0
-    container_name: wordpress-db
+    container_name: ${PROJECT_NAME}-wordpress-db
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: ${DATABASENAME:-wordpress_db}
@@ -49,11 +49,11 @@ services:
       timeout: 5s
       retries: 5
     networks:
-      - wordpress_network
+      - app_network
 
   phpmyadmin:
     image: docker.m.daocloud.io/library/phpmyadmin:latest
-    container_name: wordpress-phpmyadmin
+    container_name: ${PROJECT_NAME}-wordpress-phpmyadmin
     restart: unless-stopped
     ports:
       - ${PHPMYADMIN_PORT:-8082}:80
@@ -64,12 +64,15 @@ services:
     depends_on:
       - db
     networks:
-      - wordpress_network
+      - app_network
 
 networks:
-  wordpress_network:
+  app_network:
+    name: ${PROJECT_NAME}_network
     driver: bridge
 
 volumes:
-  wordpress_data:
+  wordpress_files:
+    name: ${PROJECT_NAME}_wordpress_files
   db_data:
+    name: ${PROJECT_NAME}_db_data
