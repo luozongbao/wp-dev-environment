@@ -1,0 +1,26 @@
+/**
+ * MyTheme — child theme overrides.
+ *
+ * Drop site-specific CSS overrides here. Keep rules grouped by component
+ * or section with a short comment header so they stay maintainable.
+ */
+
+/* ---------- Layout helpers ---------- */
+
+.block-card,
+.block-card .wp-block-cover__inner-container {
+    height: 100%;
+}
+
+/* ---------- Brand helpers (example) ---------- */
+/* Uncomment and adapt if your site needs a logo "inversion" rule for dark headers.
+
+.brand-logo--inverse,
+.brand-logo--inverse img,
+.brand-logo--inverse svg,
+.brand-logo--inverse figure,
+.brand-logo--inverse picture {
+    filter: brightness(0) invert(1) !important;
+}
+
+*/
