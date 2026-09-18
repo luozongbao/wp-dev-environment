@@ -186,12 +186,27 @@ Additional WordPress constants are set via `WORDPRESS_CONFIG_EXTRA`:
 
 ## 🧰 Developing Theme & Plugin
 
-Edit files locally in:
+This repo ships with **generic starter templates** for both the theme and the plugin. Edit them freely — they're meant to be customized.
 
-- `mytheme/` — your custom theme
-- `myplugin/` — your custom plugin
+- `mytheme/` — generic **Kadence child theme** starter (see [mytheme/README.md](mytheme/README.md))
+- `myplugin/` — generic **WordPress plugin** starter (see [myplugin/README.md](myplugin/README.md))
 
 Changes appear immediately inside the container (live mount with `:rw`). No rebuild required.
+
+### Renaming the theme / plugin
+
+Both starters use generic identifiers (`MyTheme`, `MyPlugin`). To rename one, do a project-wide search-and-replace for these tokens:
+
+| Old | New |
+| --- | --- |
+| `MyTheme` | `YourThemeName` |
+| `mytheme` | `your-theme-slug` |
+| `MYTHEME_*` | `YOURTHEME_*` |
+| `MyPlugin` | `YourPluginName` |
+| `myplugin` | `your-plugin-slug` |
+| `MYPLUGIN_*` | `YOURPLUGIN_*` |
+
+Also update the folder names, the WordPress folder mount targets in `docker-compose.yml`, and the `Template:` line in `mytheme/style.css` if you switch parent themes.
 
 ---
 

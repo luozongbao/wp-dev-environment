@@ -1,0 +1,22 @@
+/*
+Theme Name: MyTheme
+Theme URI: https://example.com/mytheme
+Description: Generic child theme of Kadence — a clean, reusable starting point for new WordPress sites.
+Author: Your Name
+Author URI: https://example.com
+Template: kadence
+Version: 1.0.0
+Requires at least: 6.0
+Tested up to: 6.6
+Requires PHP: 8.0
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+Text Domain: mytheme
+Tags: kadence, child-theme
+*/
+
+/*
+ * Add your custom styles below this line.
+ * For organization, prefer importing partials from the /styles/ directory
+ * via functions.php rather than writing everything here.
+ */
