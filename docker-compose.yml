@@ -69,10 +69,13 @@ services:
 networks:
   app_network:
     name: ${PROJECT_NAME}_network
+    external: false
     driver: bridge
 
 volumes:
   wordpress_files:
+    external: false
     name: ${PROJECT_NAME}_wordpress_files
   db_data:
+    external: false
     name: ${PROJECT_NAME}_db_data
