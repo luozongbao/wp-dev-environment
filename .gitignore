@@ -85,4 +85,3 @@ backup/data/backup.log
 # php.ini             - PHP config override (commit ได้)
 # yadepan-kadence-child/ - theme code (commit ได้)
 # README.md, *.md     - เอกสาร (commit ได้ ยกเว้น wordpress.md)
-php.ini
