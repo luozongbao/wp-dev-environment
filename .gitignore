@@ -48,12 +48,21 @@ Thumbs.db
 *.zip
 
 # ============================================
+# plugin dependencies (ถ้ามี node_modules ในอนาคต)
+# ============================================
+myplugin/node_modules/
+myplugin/vendor/
+myplugin/.cache/
+myplugin/dist/
+
+
+# ============================================
 # Theme dependencies (ถ้ามี node_modules ในอนาคต)
 # ============================================
-yadepan-kadence-child/node_modules/
-yadepan-kadence-child/vendor/
-yadepan-kadence-child/.cache/
-yadepan-kadence-child/dist/
+mytheme/node_modules/
+myplugin/vendor/
+myplugin/.cache/
+myplugin/dist/
 
 # ============================================
 # Backup files

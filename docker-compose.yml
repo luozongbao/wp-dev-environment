@@ -6,7 +6,7 @@ services:
     ports:
       - ${PORT:-8081}:80
     environment:
-      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_HOST: database:3306
       WORDPRESS_DB_USER: ${DATABASEUSER:-wordpress_user}
       WORDPRESS_DB_PASSWORD: ${DATABASEPASS:-wordpress_password}
       WORDPRESS_DB_NAME: ${DATABASENAME:-wordpress_db}
@@ -27,12 +27,12 @@ services:
       # เพิ่ม PHP ini override สำหรับ Apache + upload limit
       - ./php.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
     depends_on:
-      db:
+      database:
         condition: service_healthy
     networks:
       - app_network
 
-  db:
+  database:
     image: docker.m.daocloud.io/library/mysql:8.0
     container_name: ${PROJECT_NAME}-wordpress-db
     restart: unless-stopped
@@ -58,11 +58,11 @@ services:
     ports:
       - ${PHPMYADMIN_PORT:-8082}:80
     environment:
-      PMA_HOST: db
+      PMA_HOST: database
       PMA_PORT: 3306
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:-rootpassword}
     depends_on:
-      - db
+      - database
     networks:
       - app_network
 

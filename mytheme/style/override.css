@@ -13,7 +13,7 @@
 }
 
 /* ---------- Brand helpers (example) ---------- */
-/* Uncomment and adapt if your site needs a logo "inversion" rule for dark headers.
+Uncomment and adapt if your site needs a logo "inversion" rule for dark headers.
 
 .brand-logo--inverse,
 .brand-logo--inverse img,
@@ -23,4 +23,3 @@
     filter: brightness(0) invert(1) !important;
 }
 
-*/
