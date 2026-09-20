@@ -54,18 +54,6 @@ add_action( 'wp_enqueue_scripts', function () {
         'mytheme-overrides',
         get_stylesheet_directory_uri() . '/styles/overrides.css',
         array( 'kadence-global' ),
-        MYTHEME_VERSION
+        filemtime( get_stylesheet_directory() . '/style/override.css' )
     );
 }, 20 );
-
-/**
- * Editor styles for the block editor.
- */
-add_action( 'after_setup_theme', function () {
-    add_editor_style( 'styles/overrides.css' );
-} );
-
-/* --------------------------------------------------------------------- */
-/* Custom code goes below this line.                                     */
-/* Keep page-specific code in /inc/ for clarity.                          */
-/* --------------------------------------------------------------------- */
